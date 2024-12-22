@@ -1,0 +1,24 @@
+services:
+  bookdb:
+    container_name: bookdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root_mysql_password
+      MYSQL_DATABASE: BookDB
+      MYSQL_USER: user_mysql
+      MYSQL_PASSWORD: user_mysql
+    restart: always
+    ports:
+        - "3306:3306"
+    volumes:
+       - mysql_book:/var/lib/mysql
+ 
+  userdb:
+    container_name: userdb 
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=Anxk12345678
+    restart: always
+    ports:
+        - "1433:1433"  
+    volumes:
+       - sqlserver_user:/var/opt/mssql

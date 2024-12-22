@@ -1,0 +1,9 @@
+services:
+  bookdb:
+    image: mysql
+  userdb:
+    image: mcr.microsoft.com/mssql/server
+
+volumes:
+  mysql_book:   
+  sqlserver_user:  
