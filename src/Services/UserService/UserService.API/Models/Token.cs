@@ -10,6 +10,7 @@
         public DateTime ExpiresAt { get; set; }
         public bool IsRevoked { get; set; }
 
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

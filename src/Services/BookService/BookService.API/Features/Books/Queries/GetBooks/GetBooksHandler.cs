@@ -18,11 +18,6 @@
 
                 books = books.OrderBy(b => b.Title);
 
-                if (query.filterStatusId != Guid.Empty)
-                {
-                    books = books.Where(b => b.BookStatusId == query.filterStatusId);
-                }
-
                 int totalCount = await books.CountAsync();
 
                 if (query.pageNumber.HasValue && query.pageSize.HasValue)
