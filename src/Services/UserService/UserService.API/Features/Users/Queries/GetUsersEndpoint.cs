@@ -1,7 +1,7 @@
 ﻿namespace UserService.API.Features.Users.Queries
 {
     public record GetUsersRequest(int? pageNumber = 1, int? pageSize = 10);
-    public record GetUsersResponse(IEnumerable<UserDTO> UserDTOs, int totalCount);
+    public record GetUsersResponse(IEnumerable<UserDTO> Users, int TotalCount);
     public class GetUsersEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)

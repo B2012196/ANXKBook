@@ -22,3 +22,16 @@ services:
         - "1433:1433"  
     volumes:
        - sqlserver_user:/var/opt/mssql
+
+  borrrowingdb:
+    container_name: borrrowingdb
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=adminMongo123
+      - MONGO_INITDB_ROOT_PASSWORD=adminMongo123
+      - MONGO_INITDB_DATABASE=BorrrowingDB
+      - MONGO_BIND_IP=0.0.0.0
+    volumes:
+      - mongodb_borrrowing:/data/db 

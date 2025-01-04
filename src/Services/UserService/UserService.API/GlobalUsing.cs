@@ -13,6 +13,11 @@ global using BuildingBlocks.Exceptions;
 global using UserService.API.Exceptions;
 global using System.Text.Json.Serialization;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+
 
 
 

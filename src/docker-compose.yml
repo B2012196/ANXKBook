@@ -3,7 +3,10 @@ services:
     image: mysql
   userdb:
     image: mcr.microsoft.com/mssql/server
+  borrrowingdb:
+    image: mongo
 
 volumes:
   mysql_book:   
   sqlserver_user:  
+  mongodb_borrrowing:  

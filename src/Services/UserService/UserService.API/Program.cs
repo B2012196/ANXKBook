@@ -18,9 +18,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 //exception
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+});
 var app = builder.Build();
 
 app.MapCarter();
-
+app.UseAuthorization();
 app.Run();
