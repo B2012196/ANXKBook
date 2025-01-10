@@ -1,0 +1,146 @@
+{
+  "Routes": [
+    //Book service 
+    {
+      "DownstreamPathTemplate": "/books/{endpoint}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6060
+        }
+      ],
+      "UpstreamPathTemplate": "/books/{endpoint}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/books/{endpoint1}/{endpoint2}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6060
+        }
+      ],
+      "UpstreamPathTemplate": "/books/{endpoint1}/{endpoint2}/{params}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/books/{endpoint}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6060
+        }
+      ],
+      "UpstreamPathTemplate": "/books/{endpoint}",
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/books/{endpoint}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6060
+        }
+      ],
+      "UpstreamPathTemplate": "/books/{endpoint}/{params}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    //user service
+    {
+      "DownstreamPathTemplate": "/users/{endpoint}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6061
+        }
+      ],
+      "UpstreamPathTemplate": "/users/{endpoint}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/users/{endpoint1}/{endpoint2}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6061
+        }
+      ],
+      "UpstreamPathTemplate": "/users/{endpoint1}/{endpoint2}/{params}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/users/{endpoint}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6061
+        }
+      ],
+      "UpstreamPathTemplate": "/users/{endpoint}",
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/users/{endpoint}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6061
+        }
+      ],
+      "UpstreamPathTemplate": "/users/{endpoint}/{params}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+
+    //borrowing service
+    {
+      "DownstreamPathTemplate": "/borrowings/{endpoint}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6062
+        }
+      ],
+      "UpstreamPathTemplate": "/borrowings/{endpoint}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/borrowings/{endpoint1}/{endpoint2}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6062
+        }
+      ],
+      "UpstreamPathTemplate": "/borrowings/{endpoint1}/{endpoint2}/{params}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/borrowings/{endpoint}/{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6062
+        }
+      ],
+      "UpstreamPathTemplate": "/borrowings/{endpoint}/{params}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }
+  ]
+
+}

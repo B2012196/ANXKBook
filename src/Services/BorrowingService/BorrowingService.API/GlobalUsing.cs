@@ -14,6 +14,9 @@ global using BuildingBlocks.Exceptions;
 global using BorrowingService.API.Exceptions;
 global using HealthChecks.UI.Client;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using BuildingBlocks.Messaging.MassTransit;
+global using BuildingBlocks.Messaging.Events;
+global using MassTransit;
 
 
 

@@ -4,6 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
+        "bookservice.api": "StartDebugging",
+        "borrowingservice.api": "StartDebugging",
+        "userservice.api": "StartDebugging"
       }
     }
   }

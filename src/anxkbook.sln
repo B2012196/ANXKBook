@@ -23,7 +23,13 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.API", "Services\UserService\UserService.API\UserService.API.csproj", "{F449CB14-1400-4837-9D77-A6E69C81952D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowingService.API", "Services\BorrowingService\BorrowingService.API\BorrowingService.API.csproj", "{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BorrowingService.API", "Services\BorrowingService\BorrowingService.API\BorrowingService.API.csproj", "{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OcelotAPIGateway", "OcelotAPIGateway", "{006A96D0-F030-435C-AA70-7E32B6BE255E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotAPIGateway", "APIGateways\OcelotAPIGateway\OcelotAPIGateway\OcelotAPIGateway.csproj", "{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", "BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj", "{E589F2D1-B608-4165-B6FA-796D7168F4F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,14 @@ Global
 		{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E589F2D1-B608-4165-B6FA-796D7168F4F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E589F2D1-B608-4165-B6FA-796D7168F4F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E589F2D1-B608-4165-B6FA-796D7168F4F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E589F2D1-B608-4165-B6FA-796D7168F4F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +77,9 @@ Global
 		{A30AF94E-776E-4883-90BC-FA78BB35B9FD} = {D3F665D2-ADD6-41F6-926D-3D4DD40374B5}
 		{F449CB14-1400-4837-9D77-A6E69C81952D} = {B33F47B5-B23D-4A16-AAB8-8C5785E2528F}
 		{D8FCBE4D-1442-4CEA-BDF2-38017B84B5E6} = {F1E77E72-3EFC-4355-B607-FD9A958366C7}
+		{006A96D0-F030-435C-AA70-7E32B6BE255E} = {F6AF399D-E53C-421B-9E39-EDDA930EA36A}
+		{01B201B3-3BDB-4C21-ABC0-D30C5147FCC8} = {006A96D0-F030-435C-AA70-7E32B6BE255E}
+		{E589F2D1-B608-4165-B6FA-796D7168F4F7} = {D3F665D2-ADD6-41F6-926D-3D4DD40374B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A4F89EEC-C1AA-4639-96C2-3641FB07C61F}

@@ -12,20 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Services/BookService/BookService.API/BookService.API.csproj", "Services/BookService/BookService.API/"]
-COPY ["BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "BuildingBlocks/BuildingBlocks/"]
-RUN dotnet restore "./Services/BookService/BookService.API/BookService.API.csproj"
+COPY ["APIGateways/Ocelot/Ocelot/Ocelot.csproj", "APIGateways/Ocelot/Ocelot/"]
+RUN dotnet restore "./APIGateways/Ocelot/Ocelot/Ocelot.csproj"
 COPY . .
-WORKDIR "/src/Services/BookService/BookService.API"
-RUN dotnet build "./BookService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/APIGateways/Ocelot/Ocelot"
+RUN dotnet build "./Ocelot.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./BookService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Ocelot.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BookService.API.dll"]
+ENTRYPOINT ["dotnet", "Ocelot.dll"]

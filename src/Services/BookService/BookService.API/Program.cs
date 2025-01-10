@@ -12,13 +12,17 @@ builder.Services.AddMediatR(config =>
 //minimal API
 builder.Services.AddCarter();
 
-
 //exception
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 //Register DbContext with MySQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("Database"), new MySqlServerVersion(new Version(9, 1, 0))));
+
+//Async communication service
+builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 //health check
 builder.Services.AddHealthChecks().AddMySql(builder.Configuration.GetConnectionString("Database")!);

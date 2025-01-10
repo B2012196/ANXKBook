@@ -33,6 +33,9 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
+//Async communication service
+builder.Services.AddMessageBroker(builder.Configuration);
+
 //exception
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 

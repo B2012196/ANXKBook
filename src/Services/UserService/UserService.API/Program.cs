@@ -9,6 +9,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
+
 //minimal API
 builder.Services.AddCarter();
 
@@ -22,8 +23,16 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
 });
+
+//health check
+builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("Database")!);
 var app = builder.Build();
 
 app.MapCarter();
 app.UseAuthorization();
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 app.Run();

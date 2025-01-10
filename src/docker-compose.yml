@@ -6,7 +6,30 @@ services:
   borrrowingdb:
     image: mongo
 
+  messagebroker:
+    image: rabbitmq:management
+
+  bookservice.api:
+    image: ${DOCKER_REGISTRY-}bookserviceapi
+    build:
+      context: Services
+      dockerfile: BookService/BookService.API/Dockerfile
+
+  borrowingservice.api:
+    image: ${DOCKER_REGISTRY-}borrowingserviceapi
+    build:
+      context: .
+      dockerfile: Services/BorrowingService/BorrowingService.API/Dockerfile
+
+  userservice.api:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    build:
+      context: .
+      dockerfile: Services/UserService/UserService.API/Dockerfile
+
 volumes:
   mysql_book:   
   sqlserver_user:  
   mongodb_borrrowing:  
+
+
