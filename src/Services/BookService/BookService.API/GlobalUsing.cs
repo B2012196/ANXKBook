@@ -19,6 +19,13 @@ global using BuildingBlocks.Messaging.MassTransit;
 global using BuildingBlocks.Messaging.Events;
 global using MassTransit;
 global using BookService.API.Features.Books.Repository;
+global using FluentValidation;
+global using BookService.API.Features.BookStatus.Repository;
+global using Microsoft.EntityFrameworkCore.Storage;
+global using BookService.API.Features.BookCopys.Repository;
+
+
+
 
 
 

@@ -11,12 +11,6 @@
             builder.Property(b => b.PublishingHouse);
             builder.Property(b => b.PublicationYear);
             builder.Property(b => b.Quatity).IsRequired();
-
-            //book - bookstatus
-            builder.HasOne(b => b.BookStatus)
-                .WithMany(s => s.Books)
-                .HasForeignKey(b => b.BookStatusId)
-                .OnDelete(DeleteBehavior.Restrict);
             
             //book - genre
             builder.HasOne(b => b.Genre)

@@ -2,6 +2,23 @@
 {
     public record LoginCommand(string UserName, string Password) : ICommand<LoginResult>;
     public record LoginResult(bool IsSuccess, TokenResponse TokenResponse);
+    public class LoginCommandValidator : AbstractValidator<LoginCommand>
+    {
+        public LoginCommandValidator()
+        {
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("UserName is required.")
+                .MinimumLength(5).WithMessage("UserName must be at least 5 characters long.")
+                .MaximumLength(20).WithMessage("UserName cannot exceed 20 characters.");
+
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
+                .MaximumLength(30).WithMessage("Password cannot exceed 30 characters.")
+                .Matches(@"[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
+                .Matches(@"[a-z]").WithMessage("Password must contain at least one lowercase letter.")
+                .Matches(@"\d").WithMessage("Password must contain at least one number.")
+                .Matches(@"[\W]").WithMessage("Password must contain at least one special character.");
+        }
+    }
     public class LoginHandler(ApplicationDbContext context) : ICommandHandler<LoginCommand, LoginResult>
     {
         public async Task<LoginResult> Handle(LoginCommand command, CancellationToken cancellationToken)

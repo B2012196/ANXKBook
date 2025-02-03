@@ -2,7 +2,7 @@
 {
     public interface IBookRepository
     {
-        Task<bool> UpdateBorrowedStatus(Guid BookId, CancellationToken cancellationToken);
-        Task<bool> UpdateReturnedStatus(Guid BookId, Guid BookStatusId, CancellationToken cancellationToken);
+        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
+        Task<Guid> CreateBook(Book book, CancellationToken cancellationToken);
     }
 }

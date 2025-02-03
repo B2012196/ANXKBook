@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using System.Reflection;
+
+var builder = WebApplication.CreateBuilder(args);
 //add services to the container
 var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
@@ -12,6 +14,9 @@ builder.Services.AddCarter();
 
 //validation
 builder.Services.AddValidatorsFromAssembly(assembly);
+
+//exception
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 //Cấu hình MongoSettings từ appsetting.json
 builder.Services.Configure<MongoSettings>(
@@ -34,10 +39,8 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 });
 
 //Async communication service
-builder.Services.AddMessageBroker(builder.Configuration);
+builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
-//exception
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 // Đăng ký Health Check cho MongoDB
 builder.Services

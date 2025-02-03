@@ -1,0 +1,241 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject IBookService BookService
+@inject ILocalStorageService LocalStorage
+
+
+<PageTitle>Home</PageTitle>
+
+@if (books == null)
+{
+    <p>Đang tải...</p>
+}
+else
+{
+    <div class="filter-wrapper">
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="category">Chọn loại sách:</label>
+                <select id="category" @onchange="OnCategoryChange" class="filter-select">
+                    <option value="">Tất cả</option>
+                    @foreach (var genre in Genres)
+                    {
+                        <option value="@genre.GenreId">@genre.GenreName</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <button class="filter-button" @onclick="() => ApplyFilters()">Áp dụng lọc</button>
+                <button class="filter-reset" @onclick="ResetFilters">Xóa lọc</button>
+            </div>
+        </div>
+    </div>
+    
+    <ul>
+        @foreach (var book in books)
+        {
+            <li style="
+                list-style: none;
+                border: 1px solid #cbcbcb;
+                margin: 5px;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); background-color: #f9f9f9">
+                <h5 style="color: orange;">
+                    <b>@book.Title</b>
+                </h5>
+                <span>Tác giả: @book.Author</span><br />
+                <span>Nhà xuất bản: @book.PublishingHouse</span><br />
+                <span>Năm xuất bản: @book.PublicationYear</span><br />
+                <span>Số lượng: @book.Quatity</span><br />
+                <button class="borrow-button" @onclick="() => AddBookToLocalStorage(book.BookId, book.Title)">
+                    Mượn sách
+                </button>
+            </li>
+        }
+    </ul>
+
+    <!-- Modal hiển thị form mượn sách -->
+    @if (selectedBook != null && isFormVisible)
+    {
+        <div class="modal-overlay" @onclick="CloseForm">
+            <div class="modal-content" @onclick:stopPropagation="true">
+                <h2>Thông tin mượn sách</h2>
+                <form @onsubmit="HandleBorrowSubmit">
+                    <div class="form-group">
+                        <label for="borrowerName">Họ và tên:</label>
+                        <input id="borrowerName" type="text" class="form-control" @bind="borrowerName" placeholder="Nhập họ và tên" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="borrowerEmail">Email:</label>
+                        <input id="borrowerEmail" type="email" class="form-control" @bind="borrowerEmail" placeholder="Nhập email" required />
+                    </div>
+                    <p><strong>Sách cần mượn:</strong> @selectedBook?.Title</p>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">Xác nhận</button>
+                        <button type="button" class="cancel-button" @onclick="CloseForm">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+    <ul class="pagination">
+        <li class="@((BookPage.PageNumber == 1) ? "disabled" : "")">
+            <a @onclick="() => ChangePage(BookPage.PageNumber - 1)">&laquo; Prev</a>
+        </li>
+        @for (int i = 1; i <= BookPage.TotalPages; i++)
+        {
+            var pageIndex = i;
+            <li class="@((BookPage.PageNumber == pageIndex) ? "active" : "")">
+                <a @onclick="() => ChangePage(pageIndex)">@i</a>
+            </li>
+        }
+
+        <li class="@((BookPage.PageNumber == BookPage.TotalPages) ? "disabled" : "")">
+            <a @onclick="() => ChangePage(BookPage.PageNumber + 1)">Next &raquo;</a>
+        </li>
+    </ul>
+}
+
+@code{
+    public IEnumerable<Book> books = new List<Book>();
+    public BookPage BookPage { get; set; } = new BookPage { PageNumber = 1, PageSize = 10, TotalPages = 10 };
+
+    public IEnumerable<Genre> Genres = new List<Genre>();
+    Guid SelectedGenre = Guid.Empty;
+    bool IsBestSeller = false;
+    bool IsNewArrival = false;
+
+    bool isFormVisible = false;
+    private Book? selectedBook = null;
+    private string borrowerName = "";
+    private string borrowerEmail = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadBooks(BookPage.PageNumber, BookPage.PageSize, Guid.Empty);
+            await LoadGenres();
+        }
+        catch
+        {
+
+        }
+    }
+
+    private async Task LoadBooks(int pageNumber, int pageSize, Guid? GenreId)
+    {
+        try
+        {
+            var getbooks = await BookService.GetBooks(pageNumber, pageSize, Guid.Parse("7fd643c7-6378-4ae9-8dff-0096d668e828"));
+
+            books = getbooks.Books;
+            BookPage.PageNumber = pageNumber;
+            BookPage.PageSize = pageSize;
+            int totalCount = getbooks.TotalCount;
+            BookPage.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            //get genres
+
+            StateHasChanged();
+        }
+        catch
+        {
+
+        }
+    }
+
+    private async Task ChangePage(int pageNumber)
+    {
+        Console.WriteLine("Call ChangePage pageNumber is " + pageNumber);
+        if (pageNumber > 0 && pageNumber <= BookPage.TotalPages)
+        {
+            BookPage.PageNumber = pageNumber; // Cập nhật trang hiện tại
+            await LoadBooks(pageNumber, BookPage.PageSize, Guid.Empty); // Tải dữ liệu mới
+        }
+    }
+
+
+    private async Task LoadGenres()
+    {
+        var resultGetGenres = await BookService.GetGenres();
+        Genres = resultGetGenres.Genres;
+
+    }
+
+
+    private void OnCategoryChange(ChangeEventArgs e)
+    {
+        Console.WriteLine(e.Value.ToString());
+        SelectedGenre = Guid.Parse(e.Value.ToString());
+
+        StateHasChanged();
+    }
+
+    private async Task ApplyFilters()
+    {
+        Console.WriteLine($"Loc theo loai: {SelectedGenre}");
+        // Gọi API hoặc xử lý logic để áp dụng bộ lọc
+        Console.WriteLine($"Page size:{BookPage.PageSize}, {SelectedGenre}");
+        await LoadBooks(1, BookPage.PageSize, SelectedGenre); // Tải dữ liệu mới
+
+        StateHasChanged();
+    }
+
+    private void ResetFilters()
+    {
+        SelectedGenre = Guid.Empty;
+        IsBestSeller = false;
+        IsNewArrival = false;
+        Console.WriteLine("Đã xóa bộ lọc");
+    }
+
+    private void ShowFormBorrow(Book book)
+    {
+        selectedBook = book;
+        isFormVisible = true;
+    }
+
+    private async Task AddBookToLocalStorage(Guid BookId, string Title)
+    {
+        //b1. Kiem tra sach co available khong
+        var resultCheckAva = await BookService.CheckAvaBook(BookId);
+
+        if (resultCheckAva.IsSuccess)
+        {
+            //b2. neu con thi cho luu
+            var books = await LocalStorage.GetItemAsync<List<BorrowedBook>>("borrowedBooks") ?? new List<BorrowedBook>();
+
+            var book = new BorrowedBook
+                {
+                    BookId = BookId,
+                    Title = Title
+                };
+                 
+            books.Add(book);
+
+            await LocalStorage.SetItemAsync("borrowedBooks", books);
+
+            Console.WriteLine($"Added: {book.Title}");
+        }
+        else
+        {
+            Console.WriteLine($"Het sach: {Title}");
+        }
+
+    }
+
+    private void CloseForm()
+    {
+        isFormVisible = false;
+        selectedBook = null;
+    }
+
+    private void HandleBorrowSubmit()
+    {
+        Console.WriteLine($"Người mượn: {borrowerName}, Email: {borrowerEmail}, Sách: {selectedBook?.Title}");
+        CloseForm();
+    }
+}

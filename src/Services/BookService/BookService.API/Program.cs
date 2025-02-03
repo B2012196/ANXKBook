@@ -9,8 +9,12 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
+
 //minimal API
 builder.Services.AddCarter();
+
+//validation
+builder.Services.AddValidatorsFromAssembly(assembly);
 
 //exception
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
@@ -23,13 +27,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookCopyRepository, BookCopyRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 
 //health check
 builder.Services.AddHealthChecks().AddMySql(builder.Configuration.GetConnectionString("Database")!);
 
 var app = builder.Build();
 app.MapCarter();
-
+app.UseExceptionHandler(options => { });
 app.UseHealthChecks("/health",
     new HealthCheckOptions
     {

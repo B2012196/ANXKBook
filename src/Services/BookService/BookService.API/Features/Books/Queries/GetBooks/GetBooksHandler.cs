@@ -1,6 +1,6 @@
 ﻿namespace BookService.API.Features.Books.Queries.GetBooks
 {
-    public record GetBooksQuery(int? pageNumber = 1, int? pageSize = 10, Guid filterStatusId = default) : IQuery<GetBooksResult>;
+    public record GetBooksQuery(int? pageNumber = 1, int? pageSize = 10, Guid filterGenreId = default) : IQuery<GetBooksResult>;
     public record GetBooksResult(IEnumerable<Book> Books, int TotalCount);
     public class GetBooksHandler(ApplicationDbContext context, ILogger<GetBooksHandler> logger) : IQueryHandler<GetBooksQuery, GetBooksResult>
     {
@@ -8,17 +8,17 @@
         {
             try
             {
-                if (query.filterStatusId == Guid.Empty)
+                if (query.filterGenreId == Guid.Empty)
                 {
-                    throw new StatusNotFoundException(query.filterStatusId);
+                    throw new GenreNotFoundException(query.filterGenreId);
                 }
 
                 var books = context.Books.AsNoTracking()
-                    .Where(b => b.BookStatusId == query.filterStatusId);
+                    .Where(b => b.GenreId == query.filterGenreId);
 
                 books = books.OrderBy(b => b.Title);
 
-                int totalCount = await books.CountAsync();
+                int totalCount = await books.CountAsync(cancellationToken);
 
                 if (query.pageNumber.HasValue && query.pageSize.HasValue)
                 {

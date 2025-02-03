@@ -2,6 +2,28 @@
 {
     public record BorrowingBookCommand(Guid RecordId, List<BorrowedBook> Books) : ICommand<BorrowingBookResult>;
     public record BorrowingBookResult(bool IsSuccess);
+    public class BorrowingBookCommandValidator : AbstractValidator<BorrowingBookCommand>
+    {
+        public BorrowingBookCommandValidator()
+        {
+            RuleFor(x => x.RecordId).NotEmpty().WithMessage("RecordId is required.")
+                .NotEqual(Guid.Empty).WithMessage("RecordId cannot be an empty GUID.");
+
+            RuleFor(x => x.Books).NotEmpty().WithMessage("FullName is required.")
+                .ForEach(book =>
+                {
+                    book.NotNull().WithMessage("Book cannot be null.");
+                    book.ChildRules(b =>
+                    {
+                        b.RuleFor(x => x.BookId).NotEmpty().WithMessage("BookId is required.")
+                            .NotEqual(Guid.Empty).WithMessage("BookId cannot be an empty GUID.");
+
+                        b.RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.")
+                            .MaximumLength(50).WithMessage("Title cannot exceed 50 characters.");
+                    });
+                });
+        }
+    }
     public class BorrowingBookHandler(IMongoDatabase mongo, IPublishEndpoint publishEndpoint) : ICommandHandler<BorrowingBookCommand, BorrowingBookResult>
     {
         public async Task<BorrowingBookResult> Handle(BorrowingBookCommand command, CancellationToken cancellationToken)

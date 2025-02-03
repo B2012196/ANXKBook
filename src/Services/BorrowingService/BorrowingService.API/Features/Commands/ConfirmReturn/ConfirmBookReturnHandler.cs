@@ -2,6 +2,28 @@
 {
     public record ConfirmBookReturnCommand(Guid RecordId, List<ReturnedBook> Books) : ICommand<ConfirmBookReturnResult>;
     public record ConfirmBookReturnResult(bool IsSuccess);
+    public class ConfirmBookReturnCommandValidator : AbstractValidator<ConfirmBookReturnCommand>
+    {
+        public ConfirmBookReturnCommandValidator()
+        {
+            RuleFor(x => x.RecordId).NotEmpty().WithMessage("RecordId is required.")
+                .NotEqual(Guid.Empty).WithMessage("RecordId cannot be an empty GUID.");
+
+            RuleFor(x => x.Books).NotEmpty().WithMessage("FullName is required.")
+                .ForEach(book =>
+                {
+                    book.NotNull().WithMessage("Book cannot be null.");
+                    book.ChildRules(b =>
+                    {
+                        b.RuleFor(x => x.BookId).NotEmpty().WithMessage("BookId is required.")
+                            .NotEqual(Guid.Empty).WithMessage("BookId cannot be an empty GUID.");
+
+                        b.RuleFor(x => x.BookStatusId).NotEmpty().WithMessage("BookStatusId is required.")
+                            .NotEqual(Guid.Empty).WithMessage("BookStatusId cannot be an empty GUID.");
+                    });
+                });
+        }
+    }
     public class ConfirmBookReturnHandler(IMongoDatabase mongo, IPublishEndpoint publishEndpoint) : ICommandHandler<ConfirmBookReturnCommand, ConfirmBookReturnResult>
     {
         public async Task<ConfirmBookReturnResult> Handle(ConfirmBookReturnCommand command, CancellationToken cancellationToken)

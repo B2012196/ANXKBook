@@ -1,14 +1,14 @@
 ﻿namespace BookService.API.Features.Books.Queries.GetBooks
 {
-    public record GetBooksRequest(int? pageNumber = 1, int? pageSize = 10, Guid filterStatusId = default);
+    public record GetBooksRequest(int? pageNumber = 1, int? pageSize = 10, Guid filterGenreId = default);
     public record GetBooksResponse(IEnumerable<Book> Books, int TotalCount);
     public class GetBooksEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/books/books", async ([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] Guid filterStatusId, ISender sender) =>
+            app.MapGet("/books/books", async ([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] Guid filterGenreId, ISender sender) =>
             {
-                var result = await sender.Send(new GetBooksQuery(pageNumber, pageSize, filterStatusId));
+                var result = await sender.Send(new GetBooksQuery(pageNumber, pageSize, filterGenreId));
 
                 var response = result.Adapt<GetBooksResponse>();
 

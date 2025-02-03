@@ -7,6 +7,7 @@
         public DbSet<Book> Books { get; set; }
         public DbSet<Status> BookStatus { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<BookCopy> BookCopys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

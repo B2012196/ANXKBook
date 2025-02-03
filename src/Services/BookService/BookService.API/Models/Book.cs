@@ -4,7 +4,6 @@
     {
         public Guid BookId { get; set; }
         public Guid GenreId { get; set; }
-        public Guid BookStatusId { get; set; }
         public string Title { get; set; }
         public string? Author { get; set; }
         public string? PublishingHouse { get; set; }
@@ -15,7 +14,7 @@
         public Genre Genre { get; set; }
 
         [JsonIgnore]
-        public Status BookStatus { get; set; }
+        public ICollection<BookCopy> BookCopys { get; set; }
 
     }
 }

@@ -31,9 +31,6 @@ namespace BookService.API.Data.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("BookStatusId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("GenreId")
                         .HasColumnType("char(36)");
 
@@ -46,17 +43,41 @@ namespace BookService.API.Data.Migrations
                     b.Property<int>("Quatity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("StatusId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("BookStatusId");
-
                     b.HasIndex("GenreId");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("BookService.API.Models.BookCopy", b =>
+                {
+                    b.Property<Guid>("BookCopyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BookStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("BookCopyId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("BookStatusId");
+
+                    b.ToTable("BookCopys");
                 });
 
             modelBuilder.Entity("BookService.API.Models.Genre", b =>
@@ -91,21 +112,41 @@ namespace BookService.API.Data.Migrations
 
             modelBuilder.Entity("BookService.API.Models.Book", b =>
                 {
-                    b.HasOne("BookService.API.Models.Status", "BookStatus")
-                        .WithMany("Books")
-                        .HasForeignKey("BookStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BookService.API.Models.Genre", "Genre")
                         .WithMany("Books")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("BookStatus");
+                    b.HasOne("BookService.API.Models.Status", null)
+                        .WithMany("Books")
+                        .HasForeignKey("StatusId");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("BookService.API.Models.BookCopy", b =>
+                {
+                    b.HasOne("BookService.API.Models.Book", "Book")
+                        .WithMany("BookCopys")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BookService.API.Models.Status", "BookStatus")
+                        .WithMany("BookCopys")
+                        .HasForeignKey("BookStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("BookStatus");
+                });
+
+            modelBuilder.Entity("BookService.API.Models.Book", b =>
+                {
+                    b.Navigation("BookCopys");
                 });
 
             modelBuilder.Entity("BookService.API.Models.Genre", b =>
@@ -115,6 +156,8 @@ namespace BookService.API.Data.Migrations
 
             modelBuilder.Entity("BookService.API.Models.Status", b =>
                 {
+                    b.Navigation("BookCopys");
+
                     b.Navigation("Books");
                 });
 #pragma warning restore 612, 618

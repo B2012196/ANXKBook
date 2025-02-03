@@ -3,11 +3,11 @@
     //Book service 
     {
       "DownstreamPathTemplate": "/books/{endpoint}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6060
+          "Host": "bookservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/books/{endpoint}",
@@ -15,11 +15,11 @@
     },
     {
       "DownstreamPathTemplate": "/books/{endpoint1}/{endpoint2}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6060
+          "Host": "bookservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/books/{endpoint1}/{endpoint2}/{params}",
@@ -27,11 +27,11 @@
     },
     {
       "DownstreamPathTemplate": "/books/{endpoint}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6060
+          "Host": "bookservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/books/{endpoint}",
@@ -39,11 +39,11 @@
     },
     {
       "DownstreamPathTemplate": "/books/{endpoint}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6060
+          "Host": "bookservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/books/{endpoint}/{params}",
@@ -52,11 +52,11 @@
     //user service
     {
       "DownstreamPathTemplate": "/users/{endpoint}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6061
+          "Host": "userservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/users/{endpoint}",
@@ -65,11 +65,11 @@
 
     {
       "DownstreamPathTemplate": "/users/{endpoint1}/{endpoint2}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6061
+          "Host": "userservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/users/{endpoint1}/{endpoint2}/{params}",
@@ -78,11 +78,11 @@
 
     {
       "DownstreamPathTemplate": "/users/{endpoint}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6061
+          "Host": "userservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/users/{endpoint}",
@@ -91,11 +91,11 @@
 
     {
       "DownstreamPathTemplate": "/users/{endpoint}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6061
+          "Host": "userservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/users/{endpoint}/{params}",
@@ -105,11 +105,11 @@
     //borrowing service
     {
       "DownstreamPathTemplate": "/borrowings/{endpoint}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6062
+          "Host": "borrowingservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/borrowings/{endpoint}",
@@ -118,11 +118,11 @@
 
     {
       "DownstreamPathTemplate": "/borrowings/{endpoint1}/{endpoint2}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6062
+          "Host": "borrowingservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/borrowings/{endpoint1}/{endpoint2}/{params}",
@@ -131,11 +131,11 @@
 
     {
       "DownstreamPathTemplate": "/borrowings/{endpoint}/{params}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6062
+          "Host": "borrowingservice.api",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/borrowings/{endpoint}/{params}",

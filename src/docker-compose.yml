@@ -27,9 +27,16 @@ services:
       context: .
       dockerfile: Services/UserService/UserService.API/Dockerfile
 
+  ocelotapigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: APIGateways/OcelotAPIGateway/OcelotAPIGateway/Dockerfile
+
 volumes:
   mysql_book:   
   sqlserver_user:  
   mongodb_borrrowing:  
+
 
 

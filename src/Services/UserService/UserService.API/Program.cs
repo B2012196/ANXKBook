@@ -13,12 +13,16 @@ builder.Services.AddMediatR(config =>
 //minimal API
 builder.Services.AddCarter();
 
+//validation
+builder.Services.AddValidatorsFromAssembly(assembly);
+
 //Register DbContext with SqlServer
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
 //exception
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
@@ -29,6 +33,7 @@ builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnect
 var app = builder.Build();
 
 app.MapCarter();
+app.UseExceptionHandler(options => { });
 app.UseAuthorization();
 app.UseHealthChecks("/health",
     new HealthCheckOptions

@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Features\Books\EventHandlers\Integration\" />
   </ItemGroup>
 
 </Project>
